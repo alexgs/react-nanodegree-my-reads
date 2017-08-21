@@ -13,7 +13,7 @@ function Book( props ) {
     return (
         <div className="book">
             <div className="book-top">
-                <div className="book-cover" style={bookCoverStyle}/>
+                <div className="book-cover" style={ bookCoverStyle }/>
                 <div className="book-shelf-changer">
                     <select>
                         <option value="none" disabled>Move to...</option>
