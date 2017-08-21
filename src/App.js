@@ -5,6 +5,49 @@ import SearchPage from './search/SearchPage';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 
+const sampleResult = {
+    "title": "Camus: The Stranger",
+    "authors": [
+        "Patrick McCarthy"
+    ],
+    "publisher": "Cambridge University Press",
+    "publishedDate": "2004-01-19",
+    "description": "This handy guide places The Stranger, one of the seminal texts of existentialism and twentieth-century literature in general, in the context of French and French-Algerian history and culture. Patrick McCarthy examines the way the work undermines traditional concepts of fiction. In addition, he explores the parallels and the contrasts between Camus's work and that of Jean-Paul Sartre. Overall, this account provides students with a useful companion to The Stranger. This second edition boasts a revised guide to further reading and a new chapter on Camus and the Algerian War.",
+    "industryIdentifiers": [
+        {
+            "type": "ISBN_10",
+            "identifier": "0521539773"
+        },
+        {
+            "type": "ISBN_13",
+            "identifier": "9780521539777"
+        }
+    ],
+    "readingModes": {
+        "text": false,
+        "image": true
+    },
+    "pageCount": 109,
+    "printType": "BOOK",
+    "categories": [
+        "Literary Criticism"
+    ],
+    "averageRating": 4,
+    "ratingsCount": 2,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.0.0.0.preview.1",
+    "imageLinks": {
+        "smallThumbnail": "http://books.google.com/books/content?id=kItXNEolJJMC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        "thumbnail": "http://books.google.com/books/content?id=kItXNEolJJMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=kItXNEolJJMC&printsec=frontcover&dq=camus&hl=&cd=1&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=kItXNEolJJMC&dq=camus&hl=&source=gbs_api",
+    "canonicalVolumeLink": "https://books.google.com/books/about/Camus_The_Stranger.html?hl=&id=kItXNEolJJMC",
+    "id": "kItXNEolJJMC"
+};
+
 class BooksApp extends Component {
     // TODO Use the API instead of hard-coding books
     state = {
@@ -85,19 +128,31 @@ class BooksApp extends Component {
 
     updateQuery( query ) {
         this.setState( { query: query.trim() } );
+        BooksAPI.search( query )
+            .then( results => {
+                const books = results.map( result => ( {
+                    author: result[ 'authors' ] ? result[ 'authors' ].join() : '',
+                    title: result[ 'title' ],
+                    coverUrl: result[ 'imageLinks' ][ 'smallThumbnail' ]
+                } ) );
+                this.setState( { searchResults: books } );
+            } );
     }
 
     render() {
         return (
             <div className="app">
                 <Route path="/" exact render={ () => <MainPage shelves={ this.state.books }/>  } />
-                <Route path="/search" render={ () => (
-                    <SearchPage
-                        query={ this.state.query}
-                        searchResults={ this.state.searchResults }
-                        updateQuery={ this.updateQuery.bind( this ) }
-                    />
-                ) } />
+                <Route
+                    path="/search"
+                    render={ () => (
+                        <SearchPage
+                            query={ this.state.query}
+                            searchResults={ this.state.searchResults }
+                            updateQuery={ this.updateQuery.bind( this ) }
+                        />
+                    ) }
+                />
             </div>
         )
     }

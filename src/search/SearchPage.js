@@ -3,6 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 function SearchPage( props ) {
+    // TODO Display search results
+    // TODO Separate "book grid" from Bookshelf component
+    // TODO Update "book grid" and sub-components to work with search results, especially cover images
     return (
         <div className="search-books">
             <div className="search-books-bar">
