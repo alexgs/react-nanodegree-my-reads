@@ -16,7 +16,7 @@ function Book( props ) {
         <div className="book">
             <div className="book-top">
                 <div className="book-cover" style={ bookCoverStyle }/>
-                <ShelfChanger/>
+                <ShelfChanger bookId={ props.id } updateShelf={ props.updateShelf }/>
             </div>
             <div className="book-title">{ props.title }</div>
             <div className="book-authors">{ props.author }</div>
@@ -27,7 +27,9 @@ function Book( props ) {
 Book.propTypes = {
     author: PropTypes.string.isRequired,
     coverUrl: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    updateShelf: PropTypes.func.isRequired
 };
 
 export default Book;

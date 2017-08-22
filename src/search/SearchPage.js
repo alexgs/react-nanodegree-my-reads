@@ -18,7 +18,10 @@ function SearchPage( props ) {
                 </div>
             </div>
             <div className="search-books-results">
-                <BookGrid books={ props.searchResults } />
+                <BookGrid
+                    books={ props.searchResults }
+                    updateShelf={ props.updateShelf }
+                />
             </div>
         </div>
     );
@@ -27,7 +30,8 @@ function SearchPage( props ) {
 SearchPage.propTypes = {
     query: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
-    updateQuery: PropTypes.func.isRequired
+    updateQuery: PropTypes.func.isRequired,
+    updateShelf: PropTypes.func.isRequired
 };
 
 export default SearchPage;

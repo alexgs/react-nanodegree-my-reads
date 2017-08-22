@@ -8,7 +8,10 @@ function BookGrid( props ) {
             <Book
                 author={ book.author }
                 coverUrl={ book.coverUrl }
-                title={ book.title }/>
+                id={ book.id }
+                title={ book.title }
+                updateShelf={ props.updateShelf }
+            />
         </li>
     ) );
     return (
@@ -17,7 +20,8 @@ function BookGrid( props ) {
 }
 
 BookGrid.propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
 };
 
 export default BookGrid;

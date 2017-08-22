@@ -11,9 +11,21 @@ function MainPage( props ) {
             </div>
             <div className="list-books-content">
                 <div>
-                    <Bookshelf books={ props.shelves.currentlyReading } displayName="Currently Reading" />
-                    <Bookshelf books={ props.shelves.wantToRead} displayName="Want to Read"/>
-                    <Bookshelf books={ props.shelves.read} displayName="Read"/>
+                    <Bookshelf
+                        books={ props.shelves.currentlyReading }
+                        displayName="Currently Reading"
+                        updateShelf={ props.updateShelf }
+                    />
+                    <Bookshelf
+                        books={ props.shelves.wantToRead}
+                        displayName="Want to Read"
+                        updateShelf={ props.updateShelf }
+                    />
+                    <Bookshelf
+                        books={ props.shelves.read}
+                        displayName="Read"
+                        updateShelf={ props.updateShelf }
+                    />
                 </div>
             </div>
             <div className="open-search">
@@ -24,7 +36,8 @@ function MainPage( props ) {
 }
 
 MainPage.propTypes = {
-    shelves: PropTypes.object.isRequired
+    shelves: PropTypes.object.isRequired,
+    updateShelf: PropTypes.func.isRequired
 };
 
 export default MainPage;
