@@ -8,6 +8,7 @@ function BookGrid( props ) {
             <Book
                 author={ book.author }
                 coverUrl={ book.coverUrl }
+                currentShelf={ book.shelf || 'none' }
                 id={ book.id }
                 title={ book.title }
                 updateShelf={ props.updateShelf }

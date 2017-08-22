@@ -16,6 +16,7 @@ const mapBooksApiData = function( book ) {
 };
 
 class BooksApp extends Component {
+    // TODO Update README.md
     state = {
         books: {
             currentlyReading: [],
@@ -30,9 +31,39 @@ class BooksApp extends Component {
         this.updateStateOfAllBooks();
     }
 
+    updateQuery( query ) {
+        query = query.trim();
+        this.setState( { query } );
+        if ( query ) {
+            BooksAPI.search( query )
+                .then( results => {
+                    const books = results && results.map ? results
+                        .map( mapBooksApiData )
+                        .map( this.updateSearchResultsWithShelves.bind( this ) ) : [];
+                    this.setState( { searchResults: books } );
+                } );
+        } else {
+            this.setState( { searchResults: [] } );
+        }
+    }
+
     updateShelf( bookId, shelf ) {
         BooksAPI.update( { id: bookId }, shelf )
             .then( this.updateStateOfAllBooks.bind( this ) );
+    }
+
+    updateSearchResultsWithShelves( searchedBook ) {
+        const shelves = Object.keys( this.state[ 'books' ] );
+        shelves.forEach( shelf => {
+            const matches = this.state[ 'books' ][ shelf ].filter( shelvedBook => shelvedBook.id === searchedBook.id );
+            // Assume book IDs are unique and there is at most one match
+            if ( matches.length === 1 ) {
+                const shelvedBook = matches[ 0 ];
+                searchedBook[ 'shelf' ] = shelvedBook[ 'shelf' ];
+            }
+            // If there's no match, do nothing; setting the shelf to 'none' can undo successful matches
+        } );
+        return searchedBook;
     }
 
     updateStateOfAllBooks() {
@@ -41,25 +72,19 @@ class BooksApp extends Component {
                 currentlyReading: [],
                 wantToRead: [],
                 read: []
-            },
-            localBookData: []
+            }
         };
         BooksAPI.getAll()
-            .then(books => {
+            .then( books => {
                 books.forEach( rawData => {
                     const book = mapBooksApiData( rawData );
                     newState[ 'books' ][ book.shelf ].push( book );
                 });
-                this.setState( newState );
-            } );
-    }
-
-    updateQuery( query ) {
-        this.setState( { query: query.trim() } );
-        BooksAPI.search( query )
-            .then( results => {
-                const books = results.map( mapBooksApiData );
-                this.setState( { searchResults: books } );
+                this.setState( newState, () => {
+                    const searchResults = this.state[ 'searchResults' ]
+                        .map( this.updateSearchResultsWithShelves.bind( this ) );
+                    this.setState( { searchResults } );
+                } );
             } );
     }
 
