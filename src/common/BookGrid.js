@@ -4,12 +4,10 @@ import Book from "./Book";
 
 function BookGrid( props ) {
     const bookList = props.books.map( book => (
-        <li>
+        <li key={ book.id }>
             <Book
                 author={ book.author }
                 coverUrl={ book.coverUrl }
-                coverHeight={ parseInt( book.coverHeight, 10 ) }
-                coverWidth={ parseInt( book.coverWidth, 10 ) }
                 title={ book.title }/>
         </li>
     ) );

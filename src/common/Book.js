@@ -3,11 +3,13 @@ import React from 'react';
 import ShelfChanger from './ShelfChanger';
 
 function Book( props ) {
-    // TODO Make self-changer actually do something
     const bookCoverStyle = {
         backgroundImage: `url("${props.coverUrl}")`,
-        height: props.coverHeight,
-        width: props.coverWidth
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%',
+        height: 200,
+        width: 128
     };
 
     return (
@@ -25,8 +27,6 @@ function Book( props ) {
 Book.propTypes = {
     author: PropTypes.string.isRequired,
     coverUrl: PropTypes.string.isRequired,
-    coverHeight: PropTypes.number.isRequired,
-    coverWidth: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired
 };
 

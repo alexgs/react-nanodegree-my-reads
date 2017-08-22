@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom'
+import BookGrid from "../common/BookGrid";
 
 function SearchPage( props ) {
-    // TODO Display search results
-    // TODO Separate "book grid" from Bookshelf component
-    // TODO Update "book grid" and sub-components to work with search results, especially cover images
     return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -20,7 +18,7 @@ function SearchPage( props ) {
                 </div>
             </div>
             <div className="search-books-results">
-                <ol className="books-grid"></ol>
+                <BookGrid books={ props.searchResults } />
             </div>
         </div>
     );
